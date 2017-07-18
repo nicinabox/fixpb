@@ -1,0 +1,25 @@
+{
+  "adapter": "",
+
+  "storage": "file",
+
+  "table_prefix": "",
+
+  "db": {
+    "host": "localhost",
+    "database": "",
+    "user": "",
+    "password": ""
+  },
+
+  "s3": {
+    "key": "",
+    "secret": "",
+    "bucket": ""
+  },
+
+  "file": {
+    "location": "",
+    "prefix": "/"
+  }
+}

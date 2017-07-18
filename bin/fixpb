@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+const meow = require('meow')
+const _cli = require('../lib/cli')
+
+const cli = meow(`
+  Usage
+    $ fixpb <input>
+
+  Options
+    --adapter,  -a    Adapter
+    --host,     -h    Database host
+    --user,     -u    Database user
+    --password, -p    Database password
+    --database, -d    Database name
+    --prefix,   -P    Table prefix
+    --dry-run,  -d    Dry run
+
+  Examples
+    $ fixpb -a phpbb -h localhost -u root -d my_db_name
+`, {
+  alias: {
+    a: 'adapter',
+    h: 'host',
+    u: 'user',
+    p: 'password',
+    d: 'database',
+    P: 'prefix',
+  }
+})
+
+_cli(cli.input[0], cli.flags)
+  .then(() => process.exit(0))
