@@ -12,16 +12,6 @@ module.exports = (config) => {
   let missed = []
 
   const spinner = ora('Getting matched posts').start()
-  let cachedResults = null
-
-  try {
-    cachedResults = JSON.parse(fs.readFileSync('../../results.json'))
-  } catch (e) {}
-
-  if (!config.noCache && cachedResults) {
-    spinner.succeed('Using cached results')
-    return Promise.resolve(cachedResults)
-  }
 
   return connect(config.db)
     .then((db) => {
