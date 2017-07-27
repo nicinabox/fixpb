@@ -74,4 +74,4 @@ The absolute path where you want to store your images.
 
 **prefix**
 
-This prefix will be prepended to the file path and set in the db.
+This prefix will be prepended to the file path and set in the db. A trailing slash is required.
