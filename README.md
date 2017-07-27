@@ -2,6 +2,8 @@
 
 A tool that downloads photobucket images from your database, stores them where you want, and updates the database image location.
 
+Requires Node >= 6
+
 ## Usage
 
 ```
