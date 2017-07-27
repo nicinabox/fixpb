@@ -40,7 +40,7 @@ module.exports = (config, results) => {
       const updatePosts = results.map(({post_id, post_text, urls}) => _ => {
         let nextUrls = []
 
-        return downloadFiles(urls)
+        return downloadFiles(urls, config)
           .then((convertedUrls) => {
             nextUrls = convertedUrls
             return q.updatePostText(post_id, replaceUrlsInText(post_text, urls, nextUrls))
