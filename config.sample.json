@@ -1,8 +1,6 @@
 {
   "adapter": "",
 
-  "storage": "file",
-
   "table_prefix": "",
 
   "db": {
@@ -10,12 +8,6 @@
     "database": "",
     "user": "",
     "password": ""
-  },
-
-  "s3": {
-    "key": "",
-    "secret": "",
-    "bucket": ""
   },
 
   "file": {
