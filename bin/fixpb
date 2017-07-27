@@ -10,6 +10,7 @@ const cli = meow(`
   Options
     --config,  -c   Path to config.json
     --dry-run, -d   Dry run
+    --no-cache      Skip using cached db results
 
   Examples
     $ fixpb -c ./config.json

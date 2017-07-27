@@ -18,7 +18,7 @@ module.exports = (config) => {
     cachedResults = JSON.parse(fs.readFileSync('../../results.json'))
   } catch (e) {}
 
-  if (cachedResults) {
+  if (!config.noCache && cachedResults) {
     spinner.succeed('Using cached results')
     return Promise.resolve(cachedResults)
   }
