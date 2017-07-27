@@ -1,5 +1,5 @@
 {
-  "name": "fixphotobucket-forum",
+  "name": "fixpb",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -26,10 +26,7 @@
     "unexpected": "^10.32.1"
   },
   "scripts": {
-    "postinstall": "npm run setup",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "fixpb": "node bin/fixpb",
-    "setup": "cp config.sample.json config.json"
+    "test": "mocha"
   },
   "keywords": [],
   "author": "Nic Haynes <nic@nicinabox.com> (http://nicinabox.com)"
