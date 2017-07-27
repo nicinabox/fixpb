@@ -8,24 +8,14 @@ const cli = meow(`
     $ fixpb <input>
 
   Options
-    --adapter,  -a    Adapter
-    --host,     -h    Database host
-    --user,     -u    Database user
-    --password, -p    Database password
-    --database, -d    Database name
-    --prefix,   -P    Table prefix
-    --dry-run,  -d    Dry run
+    --config,  -c   Path to config.json
+    --dry-run, -d   Dry run
 
   Examples
-    $ fixpb -a phpbb -h localhost -u root -d my_db_name
+    $ fixpb -c ./config.json
 `, {
   alias: {
-    a: 'adapter',
-    h: 'host',
-    u: 'user',
-    p: 'password',
-    d: 'database',
-    P: 'prefix',
+    c: 'config',
   }
 })
 
