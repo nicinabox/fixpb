@@ -1,9 +1,10 @@
 const fs = require('fs')
 const ora = require('ora')
+const uniq = require('lodash/uniq')
 const connect = require('./db/connect')
 
 const PHOTOBUCKET_URL = '.photobucket.com'
-const pattern = /(http:\/\/\w+\.photobucket\.com.*?\.(?:gif|jpg|jpeg|png|html|)*)/g
+const pattern = /(https?:\/\/\w+\.photobucket\.com[^\.*]*\.(?:gif|jpg|jpeg|png|html)(?:\.html)?)/g
 
 const getUrl = (text) => text.match(pattern)
 
@@ -24,11 +25,13 @@ module.exports = (config) => {
           if (!urls) {
             missed.push(row.post_id)
           } else {
-            foundUrls += urls.length
+            let uniqUrls = uniq(urls)
+            foundUrls += uniqUrls.length
+
             return {
               post_id: row.post_id,
               post_text: row.post_text,
-              urls,
+              urls: uniqUrls,
             }
           }
         })
