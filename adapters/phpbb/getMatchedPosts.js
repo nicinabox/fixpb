@@ -41,7 +41,7 @@ module.exports = (config) => {
       spinner.text = 'Writing results'
       fs.writeFileSync('./results.json', JSON.stringify(results, null, 2), 'utf8')
 
-      spinner.succeed(`Found ${foundUrls} urls`)
+      spinner.info(`Found ${foundUrls} urls in ${results.length} posts`)
       return results
     })
 }

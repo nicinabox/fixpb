@@ -18,18 +18,25 @@ const queries = (db, config) => {
 
 module.exports = (config, results) => {
   let updatedCount = 0
-  const spinner = ora().start()
+  const spinner = ora()
 
   return connect(config.db)
     .then((db) => {
       const q = queries(db, config)
 
-      const updatePosts = results.map(({post_id, post_text, urls}) => () => {
-        return downloadFiles(urls, config)
+      const updatePosts = results.map(({post_id, post_text, urls}, i) => () => {
+        const postSpinner = ora().start(`Downloading ${urls.length} images for ${post_id}`)
+
+        return downloadFiles(urls, config, postSpinner)
           .then((nextUrls) => {
-            return q.updatePost(post_id, replaceUrls(post_text, urls, nextUrls))
+            postSpinner.text = `Updating ${nextUrls.length} in ${post_id}`
+            let nextPost = replaceUrls(post_text, urls, nextUrls)
+
+            return q.updatePost(post_id, nextPost)
+              .then(() => nextUrls)
           })
-          .then(() => {
+          .then((nextUrls) => {
+            postSpinner.succeed(`Updated ${nextUrls.filter(f => f).length} images in ${post_id}, ${results.length - (i + 1)} posts remaining`)
             updatedCount += 1
           })
       })
