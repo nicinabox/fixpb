@@ -15,7 +15,7 @@ module.exports = (config) => {
 
   return connect(config.db)
     .then((db) => {
-      return db.execute(`SELECT * from ${config.table_prefix}posts_text WHERE post_text LIKE ? ORDER BY post_id DESC`, [`%${PHOTOBUCKET_URL}%`])
+      return db.execute(`SELECT * from ${config.table_prefix}posts WHERE post_text LIKE ? ORDER BY post_id DESC`, [`%${PHOTOBUCKET_URL}%`])
     })
     .then(([rows]) => {
       return rows
