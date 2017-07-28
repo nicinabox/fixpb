@@ -2,6 +2,7 @@ const ora = require('ora')
 const connect = require('./db/connect')
 const serialPromise = require('../../utils/serialPromise')
 const downloadFiles = require('../../lib/downloadFiles')
+const replaceUrls = require('../../lib/replaceUrls')
 
 const queries = (db, config) => {
   return {
@@ -23,12 +24,6 @@ const queries = (db, config) => {
   }
 }
 
-const replaceUrlsInText = (text, originalUrls, newUrls) => {
-  return originalUrls.reduce((result, url, i) => {
-    return result.replace(url, newUrls[i] || url)
-  }, text)
-}
-
 module.exports = (config, results) => {
   let updatedCount = 0
   const spinner = ora().start()
@@ -37,13 +32,13 @@ module.exports = (config, results) => {
     .then((db) => {
       const q = queries(db, config)
 
-      const updatePosts = results.map(({post_id, post_text, urls}) => _ => {
+      const updatePosts = results.map(({post_id, post_text, urls}) => () => {
         let nextUrls = []
 
         return downloadFiles(urls, config)
           .then((convertedUrls) => {
             nextUrls = convertedUrls
-            return q.updatePostText(post_id, replaceUrlsInText(post_text, urls, nextUrls))
+            return q.updatePostText(post_id, replaceUrls(post_text, urls, nextUrls))
           })
           .then(() => {
             return q.getPost(post_id)
@@ -51,7 +46,7 @@ module.exports = (config, results) => {
           .then(([rows]) => {
             let htmlPost = rows[0]
             if (htmlPost) {
-              return q.updatePost(post_id, replaceUrlsInText(htmlPost.post_text, urls, nextUrls))
+              return q.updatePost(post_id, replaceUrls(htmlPost.post_text, urls, nextUrls))
             }
           })
           .then(() => {
@@ -61,7 +56,7 @@ module.exports = (config, results) => {
 
       return serialPromise(updatePosts)
     })
-    .then((results) => {
+    .then(() => {
       spinner.succeed(`${updatedCount} posts updated`)
     })
     .catch((err) => {
